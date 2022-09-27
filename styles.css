@@ -43,21 +43,34 @@ body,
   box-shadow: 5px 5px 10px 0px #755575;
 }
 
+#container-header {
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+  margin: 2px;
+  margin-bottom: 1rem;
+}
+
+.header-item {
+  font-size: 18px;
+}
+
 .quote-display {
   margin: 2px;
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 
+#timer-label {
+  margin-left: auto;
+}
+
 .timer {
   display: flex;
   justify-content: end;
-  font-size: 18px;
 }
 
 .text-input {
-  border-style: solid;
-  border-width: 2px;
   height: 4rem;
   width: 100%;
   font-size: 2rem;
