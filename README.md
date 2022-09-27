@@ -1,4 +1,4 @@
-# ⚡ Speed Type 
+# SpeedType ⚡ 
 Typeracer clone made to practise javascript. Test your typing speed!
 
 [View on Github Pages](https://rossw01.github.io/speed-type)
