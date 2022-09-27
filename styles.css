@@ -45,9 +45,19 @@ body,
   font-size: 18px;
 }
 
-.quote-input {
+.text-input {
   height: 4rem;
   width: 100%;
   font-size: 2rem;
   padding: 0.5rem 0.5rem;
+}
+
+/* TODO: Change these to hex values for improved visibility. */
+.correct {
+  color: greenyellow;
+}
+
+.typo {
+  color: red;
+  font-weight: bold;
 }
