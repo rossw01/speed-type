@@ -5,7 +5,7 @@ const API = "https://api.quotable.io/random?maxLength=100&minLength=50";
 function fetchQuote() {
   return fetch(API)
     .then((response) => response.json())
-    .then((fetched) => fetched.content);
+    .then((fetchedData) => fetchedData.content);
 }
 
 // Prevents it from being promise call
