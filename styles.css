@@ -22,8 +22,8 @@ body {
 body,
 .quote-display,
 .quote-input {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Roboto Mono", monospace;
+  font-weight: bold;
 }
 
 .container {

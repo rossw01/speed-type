@@ -49,8 +49,14 @@ inputElement.addEventListener("input", (input) => {
     if (inputtedChar == null) {
       charSpan.classList.remove("correct");
       charSpan.classList.remove("typo");
+      if (charSpan.innerText == "█") {
+        charSpan.innerText = " ";
+      }
       inputMatchesText = false;
     } else if (inputtedChar == charSpan.innerText) {
+      if (charSpan.innerText == "█") {
+        charSpan.innerText = " ";
+      }
       charSpan.classList.add("correct");
       charSpan.classList.remove("typo");
     } else if (inputtedChar != charSpan.innerText) {
