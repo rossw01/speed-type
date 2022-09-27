@@ -31,7 +31,7 @@ function drawFinalTime() {
 }
 
 function checkTime() {
-  return Math.floor(new Date() - startTime) / 1000; // Math.floor to avoid decimal in ms to seconds conversion
+  return (Math.floor(new Date() - startTime) / 1000).toFixed(2); // Math.floor to avoid decimal in ms to seconds conversion
 }
 
 // DONT SET THIS TO "KEYDOWN"
