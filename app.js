@@ -3,6 +3,10 @@
 const API = "https://api.quotable.io/random?maxLength=100&minLength=50";
 const textElement = document.getElementById("quoteDisplay");
 const inputElement = document.getElementById("textInput");
+const timerElement = document.getElementById("timer");
+
+let timerStarted = false;
+let testCompleted = false;
 
 function fetchText() {
   return fetch(API)
@@ -10,30 +14,61 @@ function fetchText() {
     .then((fetchedData) => fetchedData.content);
 }
 
+let startTime;
+function startTimer() {
+  timerElement.innerText = 0;
+  startTime = new Date();
+  let interval = setInterval(() => {
+    timer.innerText = checkTime();
+    if (testCompleted) {
+      clearInterval(interval);
+    }
+  }, 50);
+}
+
+function drawFinalTime() {
+  timerElement.innerText = checkTime();
+}
+
+function checkTime() {
+  return Math.floor(new Date() - startTime) / 1000; // Math.floor to avoid decimal in ms to seconds conversion
+}
+
 // DONT SET THIS TO "KEYDOWN"
 inputElement.addEventListener("input", (input) => {
+  if (!timerStarted) {
+    timerStarted = true;
+    startTimer();
+  }
   let textArray = textElement.querySelectorAll("span"); // Array of all spans (characters we parsed from string)
   let inputArray = inputElement.value.split("");
 
-  let complete = true; // if this ever gets set to false alone the way, it never gets set back to true
+  let inputMatchesText = true; // if this ever gets set to false alone the way, it never gets set back to true
   textArray.forEach((charSpan, index) => {
     let inputtedChar = inputArray[index];
     if (inputtedChar == null) {
       charSpan.classList.remove("correct");
       charSpan.classList.remove("typo");
-      complete = false;
+      inputMatchesText = false;
     } else if (inputtedChar == charSpan.innerText) {
       charSpan.classList.add("correct");
       charSpan.classList.remove("typo");
     } else if (inputtedChar != charSpan.innerText) {
+      if (charSpan.innerText == " ") {
+        charSpan.innerText = "█";
+      }
       charSpan.classList.add("typo");
       charSpan.classList.remove("correct");
-      complete = false;
+      inputMatchesText = false;
     }
   });
 
-  if (complete) {
-    console.log("complete");
+  if (inputMatchesText) {
+    testCompleted = true;
+    drawFinalTime();
+    console.log(
+      `WPM: ${(inputElement.value.split(" ").length / checkTime()) * 60}`
+    );
   }
 });
 
