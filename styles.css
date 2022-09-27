@@ -31,6 +31,7 @@ body,
   background-color: beige;
   padding: 2rem;
   border-radius: 1rem;
+  box-shadow: 5px 5px 10px 0px #755575;
 }
 
 .quote-display {
