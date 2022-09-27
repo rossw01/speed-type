@@ -29,8 +29,8 @@ body,
 .container {
   width: 750px;
   background-color: beige;
-  padding: 1rem;
-  border-radius: 0.5rem;
+  padding: 2rem;
+  border-radius: 1rem;
 }
 
 .quote-display {
