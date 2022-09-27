@@ -2,6 +2,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Roboto Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
   /* box-sizing: border box means elements wont resize due to padding/border width */
 }
 
@@ -22,8 +27,12 @@ body {
 body,
 .quote-display,
 .quote-input {
-  font-family: "Roboto Mono", monospace;
   font-weight: bold;
+}
+
+.border {
+  border-style: solid;
+  border-width: 2px;
 }
 
 .container {
@@ -47,6 +56,8 @@ body,
 }
 
 .text-input {
+  border-style: solid;
+  border-width: 2px;
   height: 4rem;
   width: 100%;
   font-size: 2rem;
@@ -55,7 +66,7 @@ body,
 
 /* TODO: Change these to hex values for improved visibility. */
 .correct {
-  color: greenyellow;
+  color: rgb(36, 194, 0);
 }
 
 .typo {
