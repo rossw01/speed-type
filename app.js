@@ -4,9 +4,12 @@ const API = "https://api.quotable.io/random?maxLength=100&minLength=50";
 const textElement = document.getElementById("quoteDisplay");
 const inputElement = document.getElementById("textInput");
 const timerElement = document.getElementById("timer");
+const wpmElement = document.getElementById("wpm");
 
 let timerStarted = false;
 let testCompleted = false;
+
+let wpmStarted = false;
 
 function fetchText() {
   return fetch(API)
@@ -14,24 +17,41 @@ function fetchText() {
     .then((fetchedData) => fetchedData.content);
 }
 
-let startTime;
 function startTimer() {
   timerElement.innerText = 0;
   startTime = new Date();
   let interval = setInterval(() => {
-    timer.innerText = checkTime();
+    timerElement.innerText = checkTime();
     if (testCompleted) {
       clearInterval(interval);
     }
   }, 50);
 }
 
-function drawFinalTime() {
-  timerElement.innerText = checkTime();
-}
+let startTime;
 
 function checkTime() {
   return (Math.floor(new Date() - startTime) / 1000).toFixed(2); // Math.floor to avoid decimal in ms to seconds conversion
+}
+
+// To avoid WPM being displayed at >1000 in the first 0.2 seconds, we can make a delay utility function
+// stackoverflow.com/a/47480429
+// this function allows us to delay wpm being displayed until it's a reasonable number.
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+var startWpm = async () => {
+  wpmElement.innerText = 0;
+  await delay(500);
+  let interval = setInterval(() => {
+    wpmElement.innerText = checkWpm();
+    if (testCompleted) {
+      clearInterval(interval);
+    }
+  }, 50);
+};
+
+function checkWpm() {
+  return ((inputElement.value.split(" ").length / checkTime()) * 60).toFixed(0);
 }
 
 // DONT SET THIS TO "KEYDOWN"
@@ -39,7 +59,10 @@ inputElement.addEventListener("input", (input) => {
   if (!timerStarted) {
     timerStarted = true;
     startTimer();
+    wpmStarted = true;
+    startWpm();
   }
+
   let textArray = textElement.querySelectorAll("span"); // Array of all spans (characters we parsed from string)
   let inputArray = inputElement.value.split("");
 
@@ -71,8 +94,8 @@ inputElement.addEventListener("input", (input) => {
 
   if (inputMatchesText) {
     testCompleted = true;
-    drawFinalTime();
     new Audio("complete.mp3").play();
+
     console.log(
       `WPM: ${(inputElement.value.split(" ").length / checkTime()) * 60}`
     );
