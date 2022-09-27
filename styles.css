@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* box-sizing: border box means elements wont resize due to padding/border width */
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: radial-gradient(
+    circle,
+    rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 100% /* https://cssgradient.io/ */
+  );
+}
+
+body,
+.quote-display,
+.quote-input {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.container {
+  width: 750px;
+  background-color: beige;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.quote-display {
+  margin: 2px;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.timer {
+  display: flex;
+  justify-content: end;
+  font-size: 18px;
+}
+
+.quote-input {
+  height: 4rem;
+  width: 100%;
+  font-size: 2rem;
+  padding: 0.5rem 0.5rem;
+}
