@@ -27,17 +27,52 @@
       <input
         id="textInput"
         class="text-input border"
-        placeholder="Start typing here!"
+        placeholder="Start typing to begin!"
         autofocus
       />
-      <button onclick="startNew()">new</button>
-      <input id="minLengthInput" placeholder="Min text length" />
-      <input id="maxLengthInput" placeholder="Max text length" />
-      <select id="langaugePicker">
-        <option></option>
-      </select>
+      <div class="parameter-container">
+        <div class="options">
+          <div class="row">
+            <label for="languagePicker">Language:&nbsp;</label>
+            <select id="langaugePicker" name="langaugePicker">
+              <option></option>
+            </select>
+          </div>
+          <div>
+            <label for="strip-punctuation">Strip Punctuation: </label>
+            <input
+              class="checkbox"
+              type="checkbox"
+              id="stripPunctuation"
+              name="strip-punctuation"
+            />
+          </div>
+        </div>
+        <div class="options">
+          <div class="row">
+            <label for="minLengthInput">Min length (chars):&nbsp;</label>
+            <input
+              name="minLengthInput"
+              id="minLengthInput"
+              placeholder="Min length"
+              class="input-box"
+            />
+          </div>
+          <div class="row">
+            <label for="maxLengthInput">Max length (chars):&nbsp;</label>
+            <input
+              name="maxLengthInput"
+              id="maxLengthInput"
+              placeholder="Max length"
+              class="input-box"
+            />
+          </div>
+        </div>
+        <button onclick="startNew()" class="new-button">
+          New text<br />(Enter)
+        </button>
+      </div>
     </div>
-
     <script src="countries.js"></script>
   </body>
 </html>
