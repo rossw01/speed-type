@@ -5,10 +5,6 @@ const wpmElement = document.getElementById("wpm");
 const minLengthElement = document.getElementById("minLengthInput");
 const maxLengthElement = document.getElementById("maxLengthInput");
 
-let timerStarted = false;
-let testCompleted = false;
-let wpmStarted = false;
-
 function getAPILink(minLength, maxLength) {
   return `https://api.quotable.io/random?maxLength=${maxLength}&minLength=${minLength}`;
 }
@@ -146,6 +142,34 @@ async function drawText(minLength, maxLength) {
 /////////////////////////////////////////////////// NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function checkParams(minLengthString, maxLengthString) {
+  let minLength = Number(minLengthString);
+  let maxLength = Number(maxLengthString);
+
+  if (minLength > maxLength) {
+    alert("The minimum length cannot be greater than the maximum length!");
+    return false;
+  } else if (minLength < 20) {
+    alert(
+      "Invalid minimum length - the minimum length cannot be less than 20 characters!"
+    );
+    return false;
+  } else if (minLength > 350) {
+    alert(
+      "Invalid minimum length - the minimum length cannot be greater than 350 characters!"
+    );
+    return false;
+  } else if (isNaN(minLength)) {
+    alert("Invalid minimum length - Please only use numbers!");
+    return false;
+  } else if (isNaN(maxLength)) {
+    alert("Invalid maximum length - Please only use numbers!");
+    return false;
+  }
+
+  return true;
+}
+
 function startNew() {
   inputElement.value = "";
   wpmElement.value = "";
@@ -155,10 +179,20 @@ function startNew() {
   wpmStarted = false;
 
   let minLength = minLengthElement.value;
-  let maxLenth = maxLengthElement.value;
+  let maxLength = maxLengthElement.value;
 
-  drawText(minLength, maxLenth);
-  timerElement.innerText = "0.00";
+  if (minLength.length == 0) {
+    minLength = 50;
+  }
+  if (maxLength.length == 0) {
+    maxLength = 100;
+  }
+
+  if (checkParams(minLength, maxLength)) {
+    // TODO: Maybe make a check for parameters like min: 348, 349, which returns nothing
+    drawText(minLength, maxLength);
+    timerElement.innerText = "0.00";
+  }
 }
 
 document.addEventListener("keypress", (input) => {
