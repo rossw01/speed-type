@@ -1,15 +1,20 @@
-const API = "https://api.quotable.io/random?maxLength=100&minLength=50";
 const textElement = document.getElementById("quoteDisplay");
 const inputElement = document.getElementById("textInput");
 const timerElement = document.getElementById("timer");
 const wpmElement = document.getElementById("wpm");
+const minLengthElement = document.getElementById("minLengthInput");
+const maxLengthElement = document.getElementById("maxLengthInput");
 
 let timerStarted = false;
 let testCompleted = false;
 let wpmStarted = false;
 
-function fetchText() {
-  return fetch(API)
+function getAPILink(minLength, maxLength) {
+  return `https://api.quotable.io/random?maxLength=${maxLength}&minLength=${minLength}`;
+}
+
+function fetchText(minLength, maxLength) {
+  return fetch(getAPILink(minLength, maxLength))
     .then((response) => response.json())
     .then((fetchedData) => fetchedData.content);
 }
@@ -126,8 +131,8 @@ inputElement.addEventListener("input", (input) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Prevents it from being promise call
-async function drawText() {
-  let textToType = await fetchText();
+async function drawText(minLength, maxLength) {
+  let textToType = await fetchText(minLength, maxLength);
   textElement.innerText = "";
 
   textToType.split("").forEach((char) => {
@@ -149,7 +154,10 @@ function startNew() {
   testCompleted = false;
   wpmStarted = false;
 
-  drawText();
+  let minLength = minLengthElement.value;
+  let maxLenth = maxLengthElement.value;
+
+  drawText(minLength, maxLenth);
   timerElement.innerText = "0.00";
 }
 
