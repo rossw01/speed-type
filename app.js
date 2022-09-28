@@ -5,6 +5,7 @@ const wpmElement = document.getElementById("wpm");
 const minLengthElement = document.getElementById("minLengthInput");
 const maxLengthElement = document.getElementById("maxLengthInput");
 const languagesList = document.getElementById("langaugePicker");
+const stripPunctuationElement = document.getElementById("stripPunctuation");
 
 // Populate languageList with countries from countries.js
 for (let langID in countries) {
@@ -19,18 +20,17 @@ for (let langID in countries) {
     `<option value="${langID}" ${isSelected}>${countries[langID]}</option>`
   );
 }
+
 function getTranslatedText(text, language) {
   if (language.length == 0) {
     return "Invalid Language Selection 😥";
   }
-  let toReturn = fetch(
+  let output = fetch(
     `https://api.mymemory.translated.net/get?q=${text}&langpair=en|${language}&de=asdok@gmail.com`
   )
     .then((response) => response.json())
-    .then((data) => data.responseData.translatedText);
-  if (toReturn.length == 0) {
-    return "Oh no! This language isn't supported by the translation API 😡 Let me know on Github and I'll remove it from the countries list! 😎";
-  } else return toReturn;
+    .then((data) => data?.responseData?.translatedText);
+  return output;
 }
 
 function fetchText(minLength, maxLength) {
@@ -163,6 +163,10 @@ async function drawText(minLength, maxLength, selectedLanguage) {
     selectedLanguage != null
   ) {
     textToType = await getTranslatedText(textToType, selectedLanguage);
+  }
+
+  if (stripPunctuationElement.checked) {
+    textToType = textToType.replace(/[^\p{L}\p{N}\s]/gu, "");
   }
 
   textElement.innerText = ""; // This must be here or else the size of the window changes on reset
