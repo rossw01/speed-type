@@ -20,11 +20,17 @@ for (let langID in countries) {
   );
 }
 function getTranslatedText(text, language) {
-  return fetch(
+  if (language.length == 0) {
+    return "Invalid Language Selection 😥";
+  }
+  let toReturn = fetch(
     `https://api.mymemory.translated.net/get?q=${text}&langpair=en|${language}&de=asdok@gmail.com`
   )
     .then((response) => response.json())
     .then((data) => data.responseData.translatedText);
+  if (toReturn.length == 0) {
+    return "Oh no! This language isn't supported by the translation API 😡 Let me know on Github and I'll remove it from the countries list! 😎";
+  } else return toReturn;
 }
 
 function fetchText(minLength, maxLength) {
@@ -151,7 +157,11 @@ async function drawText(minLength, maxLength, selectedLanguage) {
   let textToType = await fetchText(minLength, maxLength);
 
   // If not english, translate
-  if (selectedLanguage != "en-GB") {
+  if (
+    selectedLanguage != "en-GB" ||
+    selectedLanguage != "" ||
+    selectedLanguage != null
+  ) {
     textToType = await getTranslatedText(textToType, selectedLanguage);
   }
 
