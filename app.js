@@ -19,13 +19,18 @@ for (let langID in countries) {
     `<option value="${langID}" ${isSelected}>${countries[langID]}</option>`
   );
 }
-
-function getAPILink(minLength, maxLength) {
-  return `https://api.quotable.io/random?maxLength=${maxLength}&minLength=${minLength}`;
+function getTranslatedText(text, language) {
+  return fetch(
+    `https://api.mymemory.translated.net/get?q=${text}&langpair=en|${language}&de=asdok@gmail.com`
+  )
+    .then((response) => response.json())
+    .then((data) => data.responseData.translatedText);
 }
 
 function fetchText(minLength, maxLength) {
-  return fetch(getAPILink(minLength, maxLength))
+  return fetch(
+    `https://api.quotable.io/random?maxLength=${maxLength}&minLength=${minLength}`
+  )
     .then((response) => response.json())
     .then((fetchedData) => fetchedData.content);
 }
@@ -68,7 +73,7 @@ const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 var startWpm = async () => {
   wpmElement.innerText = 0;
-  await delay(1000); // Start the timer after 1000ms
+  await delay(2000); // Start the timer after 1000ms
   let interval = setInterval(() => {
     wpmElement.innerText = checkWpm();
     if (testCompleted) {
@@ -145,6 +150,11 @@ inputElement.addEventListener("input", (input) => {
 async function drawText(minLength, maxLength, selectedLanguage) {
   let textToType = await fetchText(minLength, maxLength);
 
+  // If not english, translate
+  if (selectedLanguage != "en-GB") {
+    textToType = await getTranslatedText(textToType, selectedLanguage);
+  }
+
   textElement.innerText = ""; // This must be here or else the size of the window changes on reset
 
   textToType.split("").forEach((char) => {
@@ -187,6 +197,7 @@ function checkParams(minLengthString, maxLengthString) {
 
 function startNew() {
   // Reset all values...
+  // TODO: Fix WPM still being displayed when enter is pressed
   inputElement.value = "";
   wpmElement.value = "";
   timerStarted = false;
