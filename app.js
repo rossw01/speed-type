@@ -4,6 +4,21 @@ const timerElement = document.getElementById("timer");
 const wpmElement = document.getElementById("wpm");
 const minLengthElement = document.getElementById("minLengthInput");
 const maxLengthElement = document.getElementById("maxLengthInput");
+const languagesList = document.getElementById("langaugePicker");
+
+// Populate languageList with countries from countries.js
+for (let langID in countries) {
+  let isSelected;
+  if (langID == "en-GB") {
+    // Sets default
+    isSelected = "selected";
+    //*Bad practise to use "isSelected" for non-bool var, but it makes the inner HTML insert easier to understand
+  }
+  languagesList.insertAdjacentHTML(
+    "beforeend",
+    `<option value="${langID}" ${isSelected}>${countries[langID]}</option>`
+  );
+}
 
 function getAPILink(minLength, maxLength) {
   return `https://api.quotable.io/random?maxLength=${maxLength}&minLength=${minLength}`;
@@ -16,7 +31,7 @@ function fetchText(minLength, maxLength) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////  TIMER TIMER TIMER TIMER TIMER TIMER TIMER TIMER TIMER TIMER  ///////////////////////////////////////////
+/////////////////////////////////////////////  TIMER TIMER TIMER TIMER TIMER TIMER TIMER TIMER TIMER TIMER  /////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function startTimer() {
@@ -127,9 +142,10 @@ inputElement.addEventListener("input", (input) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Prevents it from being promise call
-async function drawText(minLength, maxLength) {
+async function drawText(minLength, maxLength, selectedLanguage) {
   let textToType = await fetchText(minLength, maxLength);
-  textElement.innerText = "";
+
+  textElement.innerText = ""; // This must be here or else the size of the window changes on reset
 
   textToType.split("").forEach((char) => {
     let charSpan = document.createElement("span");
@@ -166,18 +182,18 @@ function checkParams(minLengthString, maxLengthString) {
     alert("Invalid maximum length - Please only use numbers!");
     return false;
   }
-
   return true;
 }
 
 function startNew() {
+  // Reset all values...
   inputElement.value = "";
   wpmElement.value = "";
-
   timerStarted = false;
   testCompleted = false;
   wpmStarted = false;
 
+  // Get length choices
   let minLength = minLengthElement.value;
   let maxLength = maxLengthElement.value;
 
@@ -188,13 +204,18 @@ function startNew() {
     maxLength = 100;
   }
 
+  // Language choice
+  selectedLanguage = languagesList.value;
+  console.log(`Selected language: ${selectedLanguage}`);
+
   if (checkParams(minLength, maxLength)) {
     // TODO: Maybe make a check for parameters like min: 348, 349, which returns nothing
-    drawText(minLength, maxLength);
+    drawText(minLength, maxLength, selectedLanguage);
     timerElement.innerText = "0.00";
   }
 }
 
+// Check for "Enter" hotkey for resetting test
 document.addEventListener("keypress", (input) => {
   if (input.key == "Enter") {
     startNew();
