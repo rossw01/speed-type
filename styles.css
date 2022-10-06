@@ -55,6 +55,13 @@ body,
   font-size: 18px;
 }
 
+.header-title {
+  display: flex;
+  margin: auto;
+  font-size: 1rem;
+  color: #333;
+}
+
 .quote-display {
   margin: 2px;
   font-size: 1.5rem;
@@ -62,7 +69,7 @@ body,
 }
 
 #timer-label {
-  margin-left: auto;
+  display: flex;
 }
 
 .timer {
@@ -123,4 +130,13 @@ label {
 .typo {
   color: red;
   font-weight: bold;
+}
+
+/* stops title being shifted */
+.timer {
+  min-width: 3em;
+}
+
+.wpm {
+  min-width: 2rem;
 }
