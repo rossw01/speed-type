@@ -83,7 +83,7 @@ body,
   justify-content: space-between;
 }
 
-.row {
+.line {
   display: flex;
   align-items: center;
 }
