@@ -2,6 +2,7 @@ const textElement = document.getElementById("quoteDisplay");
 const inputElement = document.getElementById("textInput");
 const timerElement = document.getElementById("timer");
 const wpmElement = document.getElementById("wpm");
+const titleElement = document.getElementById("headerTitle");
 const minLengthElement = document.getElementById("minLengthInput");
 const maxLengthElement = document.getElementById("maxLengthInput");
 const languagesList = document.getElementById("langaugePicker");
@@ -33,12 +34,12 @@ function getTranslatedText(text, language) {
   return output;
 }
 
-function fetchText(minLength, maxLength) {
+async function fetchText(minLength, maxLength) {
   return fetch(
     `https://api.quotable.io/random?maxLength=${maxLength}&minLength=${minLength}`
   )
     .then((response) => response.json())
-    .then((fetchedData) => fetchedData.content);
+    .then((fetchedData) => [fetchedData.content, fetchedData.author]);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,6 +158,7 @@ inputElement.addEventListener("input", (input) => {
 // Prevents it from being promise call
 async function drawText(minLength, maxLength, selectedLanguage) {
   let textToType = await fetchText(minLength, maxLength);
+  titleElement.innerText = "Quote by " + textToType[1]; // textToType[1] = Author
 
   // If not english, translate
   if (
@@ -164,16 +166,16 @@ async function drawText(minLength, maxLength, selectedLanguage) {
     selectedLanguage != "" ||
     selectedLanguage != null
   ) {
-    textToType = await getTranslatedText(textToType, selectedLanguage);
+    textToType[0] = await getTranslatedText(textToType[0], selectedLanguage);
   }
 
   if (stripPunctuationElement.checked) {
-    textToType = textToType.replace(/[^\p{L}\p{N}\s]/gu, "");
+    textToType[0] = textToType[0].replace(/[^\p{L}\p{N}\s]/gu, "");
   }
 
   textElement.innerText = ""; // This must be here or else the size of the window changes on reset
 
-  textToType.split("").forEach((char) => {
+  textToType[0].split("").forEach((char) => {
     let charSpan = document.createElement("span");
     charSpan.innerText = char;
     textElement.appendChild(charSpan);
