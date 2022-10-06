@@ -175,11 +175,20 @@ async function drawText(minLength, maxLength, selectedLanguage) {
 
   textElement.innerText = ""; // This must be here or else the size of the window changes on reset
 
-  textToType[0].split("").forEach((char) => {
-    let charSpan = document.createElement("span");
-    charSpan.innerText = char;
-    textElement.appendChild(charSpan);
-  });
+  try {
+    textToType[0].split("").forEach((char) => {
+      let charSpan = document.createElement("span");
+      charSpan.innerText = char;
+      textElement.appendChild(charSpan);
+    });
+  } catch (error) {
+    testCompleted = true; // Prevents completion sound from playing
+    console.log(
+      `Error 1: during API fetch, either the API failed to translate or the selected language is unsupported.\n ${error}`
+    );
+    textElement.innerText =
+      "Error occured while translating 😅 If the error persists, the translator might not support this language.";
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
