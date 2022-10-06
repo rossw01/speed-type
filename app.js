@@ -140,8 +140,10 @@ inputElement.addEventListener("input", (input) => {
   });
 
   if (inputMatchesText) {
+    if (testCompleted == false) {
+      new Audio("complete.mp3").play();
+    }
     testCompleted = true;
-    new Audio("complete.mp3").play();
 
     console.log(
       `WPM: ${(inputElement.value.split(" ").length / checkTime()) * 60}`
