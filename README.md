@@ -8,5 +8,6 @@ Now with multi-language support! 😎
 ## Screenshots
 ![image](https://user-images.githubusercontent.com/56947241/194573584-03c08778-4f59-4ceb-b00e-35155146a29d.png)
 
-![image](https://user-images.githubusercontent.com/56947241/192882137-5799ec89-12e1-4d4d-8006-7b859dcd804b.png)
+![image](https://user-images.githubusercontent.com/56947241/194573778-abd4b99f-cfe5-4e51-a01a-477a2623d2ef.png)
+
 
